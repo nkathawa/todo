@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 const App = () => {
   const [list, setList] = React.useState([]);
   const [id, setId] = React.useState(0);
+  const [isCreating, setIsCreating] = React.useState(false);
 
   const handleSaveAllClick = () => {
     console.log('hi');
@@ -17,9 +18,14 @@ const App = () => {
         {text}
       </div>
     ]);
+    setIsCreating(isCreating => false);
   }
 
   const handleAddClick = () => {
+    if(isCreating) {
+      return;
+    }
+    setIsCreating(isCreating => true);
     setId(id => id + 1);
     setList(list => [...list, 
       <div key={id}>
