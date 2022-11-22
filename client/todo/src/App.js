@@ -1,96 +1,62 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './App.css';
+import ReactDOM from 'react-dom';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todoList: Array(0),
-    }
+const App = () => {
+  const [list, setList] = React.useState([]);
+  const [id, setId] = React.useState(0);
+
+  const handleSaveAllClick = () => {
+    console.log('hi');
   }
 
-  render() { 
-    return (
-      <div>
-        <div >
-          <header >
-            <p>
-              ToDo App
-            </p>
-          </header>
-        </div>
-        <AddButton onClick={() => this.props.onClick()}/>
-        <List id="list"/>
+  const handleSaveClick = () => {
+    const text = document.getElementById("newTask").value;
+    setId(id => id + 1);
+    setList(list => [...list.slice(0, list.length-1), 
+      <div key={id}>
+        {text}
       </div>
-    );
+    ]);
   }
-}
 
-class Item extends React.Component {
-  render(i) {
-    return (
-      <div>
-          {this.props.value}
+  const handleAddClick = () => {
+    setId(id => id + 1);
+    setList(list => [...list, 
+      <div key={id}>
+        <textarea id="newTask"></textarea>
+        <button onClick={handleSaveClick}>Save</button>
       </div>
-    );
-  }
-}
+    ]);
+  };
 
-class List extends React.Component {
-  constructor(props) {
-    super(props);
-    this.setState({
-      added: false,
-      list: Array(0),
-    })
-  }
+  const handleEditClick = () => {
+    console.log('hi');
+  };
 
-  renderItem(i) {
-    return (
-      <Item
-          value={i} 
-          onClick={() => this.props.onClick(i)}
-      />
-    );
-  }
-
-  render() {
-    return (
+  return (
+    <div>
+      <header>To Do</header>
+      <button onClick={handleAddClick}>Add item</button>
+      <button onClick={handleSaveAllClick}>Save All</button>
       <div>
+        {list.map((item) => {
+          const handleRemoveClick = () => {
+            setList(list => list.filter((entry) => entry !== item));
+          };
+          return (
+            <div key={item} style={{ display: 'flex', border: '1px solid lightgray' }}>
+              {item}
+              <div style={{ flex: 1 }} /> {/* <-------------------- spacer element */}
+              <button onClick={handleEditClick}>Edit</button>
+              <button onClick={handleRemoveClick}>x</button>
+            </div>
+          );
+        })}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-class AddButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      added: false,
-    }
-  }
-
-  handleClick() {
-    // console.log("hi");
-    this.setState({
-      added: true,
-    })
-  }
-  
-  render() {
-    return (
-      <>
-      <div>
-        <button onClick={() => this.handleClick()}>Add</button>
-      </div>
-      <List added={this.state.added}/>
-      </>
-    )
-  }
-}
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
-
+const root = document.querySelector('#root');
+ReactDOM.render(<App />, root);
 export default App;

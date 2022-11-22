@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@syncfusion/ej2-react-buttons": "^20.3.57",
+    "bootstrap": "^5.2.2",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.6.0",
+    "react-dom": "^18.2.0"
+  }
+}
